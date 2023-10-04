@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+    <html lang="es">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="x-ua-compatible" content="ie=edge" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Titulos del Documento</title>
+            <link rel="stylesheet" href="css/css.css" />
+            <link rel="icon" href="favicon.png" />
+        </head>
+        <body>
+            <h1>Control de ventanas</h1>
+            <div>
+                <label for="windowHigh">Altura de la ventana</label>
+                <input type="number" name="windowHigh" id="windowHigh" value="100">
+                <br/>
+                <label for="windowWidth">Anchura de la ventana</label>
+                <input type="number" name="windowWidth" id="windowWidth" value="200">
+                <br/>
+                <button onclick="crearVentana()" id="openWindow">Abrir ventana</button>
+                <button onclick="cerrarVentana()" id="closeWindow">Cerrar ventana</button>
+                <button onclick="cambiarAlturaAnchura()" id="moreHigh">Añadir altura y anchura a la última ventana</button>
+            </div>
+       		<script src="js/ControlVentanas.js"></script>
+        </body>
+    </html>
