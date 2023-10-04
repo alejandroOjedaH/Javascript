@@ -6,20 +6,30 @@
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <title>Titulos del Documento</title>
             <link rel="stylesheet" href="css/css.css" />
-            <link rel="icon" href="favicon.png" />
+            <!--<link rel="icon" href="favicon.png" />-->
         </head>
         <body>
             <h1>Control de ventanas</h1>
-            <div>
+            <div id="izquierda">
                 <label for="windowHigh">Altura de la ventana</label>
                 <input type="number" name="windowHigh" id="windowHigh" value="100">
-                <br/>
+                <br/><br/>
                 <label for="windowWidth">Anchura de la ventana</label>
                 <input type="number" name="windowWidth" id="windowWidth" value="200">
-                <br/>
-                <button onclick="crearVentana()" id="openWindow">Abrir ventana</button>
-                <button onclick="cerrarVentana()" id="closeWindow">Cerrar ventana</button>
-                <button onclick="cambiarAlturaAnchura()" id="moreHigh">Añadir altura y anchura a la última ventana</button>
+                <br/><br/>
+                <span><button onclick="crearVentana()" id="openWindow">Abrir ventana</button> 
+                <button onclick="cerrarVentana()" id="closeWindow">Cerrar ventana</button> 
+                <button onclick="cambiarAlturaAnchura()" id="moreHigh">Añadir altura y anchura a la última ventana</button></span>
+            </div>
+            <div id="derecha">
+                <label for="movement">Altura de la ventana</label>
+                <input type="number" name="movement" id="movement" value="10">
+                <br/><br/>
+                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                <button onclick="arribaVentana()" id="up">↑</button><br/>
+                <button onclick="izquierdaVentana()" id="up">←</button> 
+                <button onclick="abajoVentana()" id="up">↓</button> 
+                <button onclick="derechaVentana()" id="up">→</button> 
             </div>
        		<script src="js/ControlVentanas.js"></script>
         </body>
