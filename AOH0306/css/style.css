@@ -1,0 +1,36 @@
+.flexeo{
+    display: flex;
+    flex-wrap: wrap;
+    flex: auto;
+    justify-content: center;
+}
+.reloj{
+    margin-left: 30px;
+    margin-right: 30px;
+}
+.float{
+    float: left;
+    width: 25%;
+    text-align: center;
+}
+.float2{
+    float: left;
+    width: 75%;
+    text-align: left;
+}
+.calendario{
+    width: 100%;
+    padding-left: 30%;
+}
+.numero{
+    width: 100%;
+    text-align: right;
+}
+.celda{
+    width: 10%;
+    height: 10%;
+    border: 1px solid black;
+}
+.navegar{
+    margin-left: 30px;
+}

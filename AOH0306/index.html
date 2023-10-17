@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+    <html lang="es">
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Titulos del Documento</title>
+            <link rel="stylesheet" href="css/style.css" />
+        </head>
+        <body>
+            <div class="flexeo">
+                <div class="reloj">
+                    <h1>Hora:</h1>
+                    <h1 id="reloj"></h1>
+                </div>
+                <div>
+                    <h1>Introducir :</h1>
+                    <label for="fecha">Fecha</label>
+                    <input type="datetime-local" name="fecha" id="fecha"><br/>
+                    <label for="cita">Cita</label>
+                    <input type="text" name="cita" id="cita"><br/>
+                    <button onclick="anniadirCita()" id="anniadirCita">Añadir</button>
+                </div>
+                <div class="navegar">
+                    <h1>Navegar</h1>
+                    <button onclick="mesAnterior()" id="mesAnterior">Mes anterior</button>
+                    <button onclick="mesSiguiente()" id="mesSiguiente">Mes siguiente</button><br/>
+                    <label for="fechaCambiar">Cambiar fecha</label>
+                    <input type="date" name="fechaCambiar" id="fechaCambiar"><br/><br/>
+                    <button onclick="cambiar()" id="cambiar">Cambiar</button><br/>
+                </div>
+            </div>
+            <div class="float">
+                <h1>Lista de citas</h1>
+                <ul id="listaCitas">
+            </div>
+            <div class="float2">
+                <h1>Calendario</h1><br/>
+                <div id="mesyanno"></div>
+                <table id="calendario"></table>
+            </div>
+            <audio id="campana" src="musica/campana.mp3"></audio>
+       		<script src="js/script.js"></script>    
+        </body>
+    </html>
