@@ -6,10 +6,9 @@ fondo de el segundo párrafo en función del valor que
 tiene en cada momento el input de tipo color. */
 let parrafos = document.getElementsByTagName("p");
 let color = document.getElementsByTagName("input")[0];
-let boton = document.getElementsByTagName("button")[0];
-
-boton.onClick = cambiarColor;
+color.onchange=cambiarColor;
 
 function cambiarColor(){
+    console.log(color.value);
     parrafos[1].style.backgroundColor=color.value;
 }
