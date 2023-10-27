@@ -1,0 +1,37 @@
+<!--
+Realiza el ejercicio anterior pasando this como parámetro (y sin pasar un nº 1, 2 o 3).
+ Pista: puedes utilizar la función de DOM previousSibling.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 2</title>
+</head>
+<body>
+    <p id="contenidos_1">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed mattis enim vitae orci. Phasellus libero. Maecenas nisl arcu, consequat congue, commodo nec, commodo ultricies, turpis. Quisque sapien nunc, posuere vitae, rutrum et, luctus at, pede. Pellentesque massa ante, ornare id, aliquam vitae, ultrices porttitor, pede. Nullam sit amet nisl elementum elit convallis malesuada. Phasellus magna sem, semper quis, faucibus ut, rhoncus non, mi. Duis pellentesque, felis eu adipiscing ullamcorper, odio urna consequat arcu, at posuere ante quam non dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis scelerisque.</p>
+    <a id="enlace_1" href="#" onclick="muestraOculta(this);return false;">Ocultar contenidos </a>
+    <br />
+    <p id="contenidos_2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed mattis enim vitae orci. Phasellus libero. Maecenas nisl arcu, consequat congue, commodo nec, commodo ultricies, turpis. Quisque sapien nunc, posuere vitae, rutrum et, luctus at, pede. Pellentesque massa ante, ornare id, aliquam vitae, ultrices porttitor, pede. Nullam sit amet nisl elementum elit convallis malesuada. Phasellus magna sem, semper quis, faucibus ut, rhoncus non, mi. Duis pellentesque, felis eu adipiscing ullamcorper, odio urna consequat arcu, at posuere ante quam non dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis scelerisque.</p>
+    <a id="enlace_2" href="#" onclick="muestraOculta(this);return false;">Ocultar contenidos </a>
+    <br />
+    <p id="contenidos_3">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed mattis enim vitae orci. Phasellus libero. Maecenas nisl arcu, consequat congue, commodo nec, commodo ultricies, turpis. Quisque sapien nunc, posuere vitae, rutrum et, luctus at, pede. Pellentesque massa ante, ornare id, aliquam vitae, ultrices porttitor, pede. Nullam sit amet nisl elementum elit convallis malesuada. Phasellus magna sem, semper quis, faucibus ut, rhoncus non, mi. Duis pellentesque, felis eu adipiscing ullamcorper, odio urna consequat arcu, at posuere ante quam non dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis scelerisque.</p>
+    <a id="enlace_3" href="#" onclick="muestraOculta(this);return false;">Ocultar contenidos </a>
+
+    <script>
+    function muestraOculta(enlace){
+            const parrafo = enlace.previousSibling.previousSibling;
+                
+            if(parrafo.style.display == "block" || parrafo.style.display == ""){
+                parrafo.style.display = "none";
+                enlace.innerText ="Mostrar contenidos"
+            } else {
+                parrafo.style.display = "block";
+                enlace.innerText ="Ocultar contenidos";
+            }
+        }
+        
+        </script>
+</body>
+</html>

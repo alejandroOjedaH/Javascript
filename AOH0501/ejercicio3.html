@@ -1,0 +1,45 @@
+<!--
+    Adapta el ejercicio 2 para no tener que utilizar this, usando manejadores semánticos.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 3</title>
+</head>
+<body>
+    <p id="contenidos_1">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed mattis enim vitae orci. Phasellus libero. Maecenas nisl arcu, consequat congue, commodo nec, commodo ultricies, turpis. Quisque sapien nunc, posuere vitae, rutrum et, luctus at, pede. Pellentesque massa ante, ornare id, aliquam vitae, ultrices porttitor, pede. Nullam sit amet nisl elementum elit convallis malesuada. Phasellus magna sem, semper quis, faucibus ut, rhoncus non, mi. Duis pellentesque, felis eu adipiscing ullamcorper, odio urna consequat arcu, at posuere ante quam non dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis scelerisque.</p>
+    <a id="enlace_1" href="#">Ocultar contenidos </a>
+    <br />
+    <p id="contenidos_2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed mattis enim vitae orci. Phasellus libero. Maecenas nisl arcu, consequat congue, commodo nec, commodo ultricies, turpis. Quisque sapien nunc, posuere vitae, rutrum et, luctus at, pede. Pellentesque massa ante, ornare id, aliquam vitae, ultrices porttitor, pede. Nullam sit amet nisl elementum elit convallis malesuada. Phasellus magna sem, semper quis, faucibus ut, rhoncus non, mi. Duis pellentesque, felis eu adipiscing ullamcorper, odio urna consequat arcu, at posuere ante quam non dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis scelerisque.</p>
+    <a id="enlace_2" href="#">Ocultar contenidos </a>
+    <br />
+    <p id="contenidos_3">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed mattis enim vitae orci. Phasellus libero. Maecenas nisl arcu, consequat congue, commodo nec, commodo ultricies, turpis. Quisque sapien nunc, posuere vitae, rutrum et, luctus at, pede. Pellentesque massa ante, ornare id, aliquam vitae, ultrices porttitor, pede. Nullam sit amet nisl elementum elit convallis malesuada. Phasellus magna sem, semper quis, faucibus ut, rhoncus non, mi. Duis pellentesque, felis eu adipiscing ullamcorper, odio urna consequat arcu, at posuere ante quam non dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis scelerisque.</p>
+    <a id="enlace_3" href="#">Ocultar contenidos </a>
+
+    <script>
+        window.onload = () => {
+            const enlaces = document.getElementsByTagName("a");
+            
+            for (let i = 0; i < enlaces.length; i++) {
+                const element = enlaces[i];
+                element.onclick = muestraOculta;
+            }
+
+            function muestraOculta(event){
+                const enlace = event.target;
+                const parrafo = enlace.previousSibling.previousSibling;
+                    
+                if(parrafo.style.display == "block" || parrafo.style.display == ""){
+                    parrafo.style.display = "none";
+                    enlace.innerText ="Mostrar contenidos"
+                } else {
+                    parrafo.style.display = "block";
+                    enlace.innerText ="Ocultar contenidos";
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

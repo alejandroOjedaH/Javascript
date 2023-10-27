@@ -1,0 +1,47 @@
+<!--
+A partir de la página web proporcionada, completar el código JavaScript para que:
+
+    Cuando se pinche sobre el primer enlace, se oculte 
+    su sección relacionada
+    Cuando se vuelva a pinchar sobre el mismo enlace, 
+    se muestre otra vez esa sección de contenidos
+    Completar el resto de enlaces de la página para que 
+    su comportamiento sea idéntico al del primer enlace
+    Cuando una sección se oculte, debe cambiar el mensaje 
+    del enlace asociado (pista: propiedad innerHTML)
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 1</title>
+</head>
+
+<body>
+    <p id="contenidos_1">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed mattis enim vitae orci. Phasellus libero. Maecenas nisl arcu, consequat congue, commodo nec, commodo ultricies, turpis. Quisque sapien nunc, posuere vitae, rutrum et, luctus at, pede. Pellentesque massa ante, ornare id, aliquam vitae, ultrices porttitor, pede. Nullam sit amet nisl elementum elit convallis malesuada. Phasellus magna sem, semper quis, faucibus ut, rhoncus non, mi. Duis pellentesque, felis eu adipiscing ullamcorper, odio urna consequat arcu, at posuere ante quam non dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis scelerisque.</p>
+    <a id="enlace_1" href="#" onclick="muestraOculta('1');return false;">Ocultar contenidos</a>
+    <br />
+    <p id="contenidos_2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed mattis enim vitae orci. Phasellus libero. Maecenas nisl arcu, consequat congue, commodo nec, commodo ultricies, turpis. Quisque sapien nunc, posuere vitae, rutrum et, luctus at, pede. Pellentesque massa ante, ornare id, aliquam vitae, ultrices porttitor, pede. Nullam sit amet nisl elementum elit convallis malesuada. Phasellus magna sem, semper quis, faucibus ut, rhoncus non, mi. Duis pellentesque, felis eu adipiscing ullamcorper, odio urna consequat arcu, at posuere ante quam non dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis scelerisque.</p>
+    <a id="enlace_2" href="#" onclick="muestraOculta('2');return false;">Ocultar contenidos</a>
+    <br />
+    <p id="contenidos_3">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed mattis enim vitae orci. Phasellus libero. Maecenas nisl arcu, consequat congue, commodo nec, commodo ultricies, turpis. Quisque sapien nunc, posuere vitae, rutrum et, luctus at, pede. Pellentesque massa ante, ornare id, aliquam vitae, ultrices porttitor, pede. Nullam sit amet nisl elementum elit convallis malesuada. Phasellus magna sem, semper quis, faucibus ut, rhoncus non, mi. Duis pellentesque, felis eu adipiscing ullamcorper, odio urna consequat arcu, at posuere ante quam non dolor. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis scelerisque.</p>
+    <a id="enlace_3" href="#" onclick="muestraOculta('3');return false;">Ocultar contenidos</a>
+    
+</body>
+<script>
+    function muestraOculta(id){
+        const parrafo = document.getElementsByTagName("p")[id-1];
+        const enlace = document.getElementsByTagName("a")[id-1];
+
+        if(parrafo.style.display == "block" || parrafo.style.display == ""){
+            parrafo.style.display = "none";
+            enlace.innerText ="Mostrar contenidos"
+        } else {
+            parrafo.style.display = "block";
+            enlace.innerText ="Ocultar contenidos";
+        }
+    }
+    
+</script>
+</html>
