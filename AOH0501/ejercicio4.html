@@ -28,17 +28,22 @@
 	<div style="height:1000px;"></div>
     <script>
         window.onload=()=>{
-            const navX =document.getElementById("x");
-            const navY =document.getElementById("y");
-            const monitorX =document.getElementById("xx");
-            const monitorY =document.getElementById("yy");
-            const absolutaX =document.getElementById("xxx");
-            const absolutaY =document.getElementById("yyy");
-
-            window.navigator.onmouseover = () =>{
-                navX.innerText = window.navX;
-                navY.innerText = window.navY;
-            }
+            function coordenadas(elEvento) {
+            var evento = elEvento || window.event;
+            var x = evento.clientX;
+            var y = evento.clientY;
+            var coordenadaX = evento.screenX;
+            var coordenadaY = evento.screenY;
+            var coordenadaXabsoluta = evento.pageX;
+            var coordenadaYabsoluta = evento.pageY;
+            document.getElementById("x").value = x;
+            document.getElementById("y").value = y;
+            document.getElementById("xx").value = coordenadaX;
+            document.getElementById("yy").value = coordenadaY;
+            document.getElementById("xxx").value = coordenadaXabsoluta;
+            document.getElementById("yyy").value = coordenadaYabsoluta;
+	    }
+	    document.onmousemove = coordenadas;
         }
     </script>
 </body>
