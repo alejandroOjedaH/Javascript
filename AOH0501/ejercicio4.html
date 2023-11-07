@@ -28,6 +28,7 @@
 	<div style="height:1000px;"></div>
     <script>
         window.onload=()=>{
+<<<<<<< HEAD
             const navX =document.getElementById("x");
             const navY =document.getElementById("y");
             const monitorX =document.getElementById("xx");
@@ -39,6 +40,24 @@
                 navX.innerText = window.navX;
                 navY.innerText = ;
             }
+=======
+            function coordenadas(elEvento) {
+            var evento = elEvento || window.event;
+            var x = evento.clientX;
+            var y = evento.clientY;
+            var coordenadaX = evento.screenX;
+            var coordenadaY = evento.screenY;
+            var coordenadaXabsoluta = evento.pageX;
+            var coordenadaYabsoluta = evento.pageY;
+            document.getElementById("x").value = x;
+            document.getElementById("y").value = y;
+            document.getElementById("xx").value = coordenadaX;
+            document.getElementById("yy").value = coordenadaY;
+            document.getElementById("xxx").value = coordenadaXabsoluta;
+            document.getElementById("yyy").value = coordenadaYabsoluta;
+	    }
+	    document.onmousemove = coordenadas;
+>>>>>>> b74edab7e852b7eb3478348967502049a170b39b
         }
     </script>
 </body>
