@@ -1,0 +1,1 @@
+import Clase from './archivo';
