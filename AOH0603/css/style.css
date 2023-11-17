@@ -28,6 +28,16 @@
     background-color: burlywood;
 }
 
+#multa{
+    float: left;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    padding: 15px;
+    margin-right: 10px;
+    background-color: burlywood;
+}
+
 #right{
     flex-wrap: wrap;
     width: fit-content;
@@ -36,7 +46,7 @@
 }
 
 .tarjeta{
-    width: 400px;
+    width: fit fit-content;
     height: fit-content;
     display: flex;
     flex-direction: column;
