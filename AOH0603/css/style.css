@@ -21,6 +21,7 @@
 #lector{
     float: left;
     display: flex;
+    clear: left;
     flex-direction: column;
     width: fit-content;
     padding: 15px;
@@ -29,6 +30,7 @@
 }
 
 #multa{
+    clear: left;
     float: left;
     display: flex;
     flex-direction: column;
@@ -39,6 +41,7 @@
 }
 
 #right{
+    display: flex;
     flex-wrap: wrap;
     width: fit-content;
     padding: 15px;
@@ -46,10 +49,11 @@
 }
 
 .tarjeta{
-    width: fit fit-content;
+    width: fit-content;
     height: fit-content;
     display: flex;
     flex-direction: column;
     border: solid black 2px;
     background-color: chocolate;
+    margin: 5px;
 }
