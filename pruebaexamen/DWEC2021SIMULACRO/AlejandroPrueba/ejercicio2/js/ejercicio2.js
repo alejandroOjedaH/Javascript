@@ -6,7 +6,7 @@ window.onload = () =>{
     apellido.onkeyup = comprobarNombre;
     
     function comprobarNombre(evento){
-        let expresion=/^[a-zA-Z]1$/;
+        let expresion=/^[a-zA-Z]{1}$/;
         let texto= evento.target.value;
         if(expresion.test(evento.key)){
           return true;
