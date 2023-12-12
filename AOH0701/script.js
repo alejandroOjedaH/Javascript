@@ -29,7 +29,6 @@ function mostrarDatos() {
                 }
                 document.getElementById("tabla").innerHTML = "";
                 document.getElementById("tabla").appendChild(tabla);
-                mostrarDepart();
             }
         };
         xmlhttp.open("GET", "getEmpleados.php?q=" + numFilas + "&oculto=" + indice, true);
@@ -182,12 +181,12 @@ function construirFila(datos, n) {
     linea.appendChild(titulo);
 
     var titulo = document.createElement('td');
-    var campo = document.createElement('input');
-    campo.className = "dept_no";
-    campo.type = "number";
-    campo.value = datos.dept_no;
-    campo.onblur = function(){ actualizarFila(n) };
-    titulo.appendChild(campo);
+    var selector = document.createElement('select');
+    selector.id= "selectDep"+n;
+    selector.name = "dep"+n;
+    mostrarDepart(selector,datos.dept_no);
+
+    titulo.appendChild(selector);
     linea.appendChild(titulo);
 
     return linea;
@@ -323,7 +322,6 @@ function mostrarOrdenar(campo,tipo){
                 }
                 document.getElementById("tabla").innerHTML = "";
                 document.getElementById("tabla").appendChild(tabla);
-                mostrarDepart();
             }
         };
         xmlhttp.open("GET", "getEmpleados.php?q=" + numFilas + "&oculto=" + indice + "&campo=" +campo + "&ordenar=" +tipo, true);
@@ -331,8 +329,7 @@ function mostrarOrdenar(campo,tipo){
     }
 }
 
-function mostrarDepart(){
-    let cadena="<br>";
+function mostrarDepart(selector,dep_no){
     let xmlhttpDep = new XMLHttpRequest();
     xmlhttpDep.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -340,13 +337,15 @@ function mostrarDepart(){
             let resultadosDep=eval(jsonDep);
 
             resultadosDep.forEach(departamento => {
-                if(resultados[0].dept_no == departamento.dept_no){
-                    cadena+="<option value=\""+departamento.dep_no+"\" selected>"+departamento.dnombre+"</option>";
-                }else{
-                    cadena+="<option value=\""+departamento.dep_no+"\">"+departamento.dnombre+"</option>";
+                let opcion = document.createElement("option");
+                opcion.value=departamento.dep_no;
+                opcion.innerText=departamento.dnombre;
+
+                if(dep_no == departamento.dept_no){
+                    opcion.selected;
                 }
+                selector.appendChild(opcion);
             });
-            document.getElementById("selectDep").innerHTML=cadena;
         }
     }
     xmlhttpDep.open("GET", "getDepartamentos.php", true);
