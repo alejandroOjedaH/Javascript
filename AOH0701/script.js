@@ -1,7 +1,9 @@
 indice = 0;
+resultadosDep=null;
 function mostrarDatos() {
     campoActual=null;
     ordenActual=null;
+    traerDepart();
     numFilas = document.getElementById("selectFilas").value;
     if (numFilas == "") {
         document.getElementById("tabla").innerHTML = "";
@@ -184,7 +186,7 @@ function construirFila(datos, n) {
     var selector = document.createElement('select');
     selector.id= "selectDep"+n;
     selector.name = "dep"+n;
-    mostrarDepart(selector,datos.dept_no);
+    anadirDepartamento(selector,datos.dept_no);
 
     titulo.appendChild(selector);
     linea.appendChild(titulo);
@@ -329,27 +331,29 @@ function mostrarOrdenar(campo,tipo){
     }
 }
 
-function mostrarDepart(selector,dep_no){
+function traerDepart(){
     let xmlhttpDep = new XMLHttpRequest();
     xmlhttpDep.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             let jsonDep = this.responseText;
-            let resultadosDep=eval(jsonDep);
-
-            resultadosDep.forEach(departamento => {
-                let opcion = document.createElement("option");
-                opcion.value=departamento.dep_no;
-                opcion.innerText=departamento.dnombre;
-
-                if(dep_no == departamento.dept_no){
-                    opcion.selected;
-                }
-                selector.appendChild(opcion);
-            });
+            resultadosDep=eval(jsonDep);
         }
     }
     xmlhttpDep.open("GET", "getDepartamentos.php", true);
     xmlhttpDep.send();
+}
+
+function anadirDepartamento(selector,dep_no){
+    resultadosDep.forEach(departamento => {
+        let opcion = document.createElement("option");
+        opcion.value=departamento.dept_no;
+        opcion.innerText=departamento.dnombre;
+
+        if(dep_no == departamento.dept_no){
+            opcion.selected=true;
+        }
+        selector.appendChild(opcion);
+    });
 }
 
 function insertarFila(){
