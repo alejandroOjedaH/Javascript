@@ -1,45 +1,48 @@
 indice = 0;
-resultadosDep=null;
-function mostrarDatos() {
-    campoActual=null;
-    ordenActual=null;
-    traerDepart();
+resultadosDep = null;
+datosResultados = null;
+async function mostrarDatos() {
+    campoActual = null;
+    ordenActual = null;
     numFilas = document.getElementById("selectFilas").value;
     if (numFilas == "") {
         document.getElementById("tabla").innerHTML = "";
         return;
     } else {
-        if (window.XMLHttpRequest) {
-            // code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp = new XMLHttpRequest();
-        } else {
-            // code for IE6, IE5
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                if(resultadosDep!==null){
-                    var json = this.responseText;
-                    resultados=eval(json);
-                    var tabla = document.createElement('table');
-                    tabla.setAttribute("border", 1);
-                    var cabecera = construirCabecera();
-                    tabla.id="tablaEmpleados";
-                    tabla.appendChild(cabecera);
-                    for (let i = 0; i < resultados.length; i++) {
-                        let fila = construirFila(resultados[i], i);
-                        tabla.appendChild(fila);
-                    }
-                    document.getElementById("tabla").innerHTML = "";
-                    document.getElementById("tabla").appendChild(tabla);
-                }else{
-                    xmlhttp.open("GET", "getEmpleados.php?q=" + numFilas + "&oculto=" + indice, true);
-                    xmlhttp.send();
-                }
+        try{
+            let datosDept =await fetch("getDepartamentos.php",{method:"GET"})
+            let datosTabla = await fetch("getEmpleados.php?q=" + numFilas + "&oculto=" + indice,{method:"GET"});
+
+            if(!datosDept.ok){
+                throw new Error(`Error de red: ${datosDept.status}`);
             }
-        };
-        xmlhttp.open("GET", "getEmpleados.php?q=" + numFilas + "&oculto=" + indice, true);
-        xmlhttp.send();
+            if(!datosTabla.ok){
+                throw new Error(`Error de red: ${datosTabla.status}`);
+            }
+            resultadosDep = eval( await datosDept.json());
+            cargarDatos( await datosTabla.json());
+        }catch(error){
+            console.error('Error de fetch:', error);
+        }
+    }
+}
+
+function cargarDatos(resultados){
+    datosResultados = resultados;
+    if (resultadosDep !== null) {
+        var tabla = document.createElement('table');
+        tabla.setAttribute("border", 1);
+        var cabecera = construirCabecera();
+        tabla.id = "tablaEmpleados";
+        tabla.appendChild(cabecera);
+        for (let i = 0; i < resultados.length; i++) {
+            let fila = construirFila(resultados[i], i);
+            tabla.appendChild(fila);
+        }
+        document.getElementById("tabla").innerHTML = "";
+        document.getElementById("tabla").appendChild(tabla);
+    } else {
+        cargarDatos(resultados);
     }
 }
 
@@ -49,7 +52,7 @@ function construirCabecera() {
     var titulo = document.createElement('th');
     var texto = document.createTextNode("Núm. Empleado");
     titulo.appendChild(texto);
-    var funcion= function () {
+    var funcion = function () {
         ordenar(0);
     };
     titulo.onclick = funcion;
@@ -57,7 +60,7 @@ function construirCabecera() {
 
     var titulo = document.createElement('th');
     var texto = document.createTextNode("Apellido");
-    var funcion= function () {
+    var funcion = function () {
         ordenar(1);
     };
     titulo.onclick = funcion;
@@ -66,7 +69,7 @@ function construirCabecera() {
 
     var titulo = document.createElement('th');
     var texto = document.createTextNode("Oficio");
-    var funcion= function () {
+    var funcion = function () {
         ordenar(2);
     };
     titulo.onclick = funcion;
@@ -75,7 +78,7 @@ function construirCabecera() {
 
     var titulo = document.createElement('th');
     var texto = document.createTextNode("Director");
-    var funcion= function () {
+    var funcion = function () {
         ordenar(3);
     };
     titulo.onclick = funcion;
@@ -84,7 +87,7 @@ function construirCabecera() {
 
     var titulo = document.createElement('th');
     var texto = document.createTextNode("Fecha Alta");
-    var funcion= function () {
+    var funcion = function () {
         ordenar(4);
     };
     titulo.onclick = funcion;
@@ -93,7 +96,7 @@ function construirCabecera() {
 
     var titulo = document.createElement('th');
     var texto = document.createTextNode("Salario");
-    var funcion= function () {
+    var funcion = function () {
         ordenar(5);
     };
     titulo.onclick = funcion;
@@ -102,7 +105,7 @@ function construirCabecera() {
 
     var titulo = document.createElement('th');
     var texto = document.createTextNode("Comisión");
-    var funcion= function () {
+    var funcion = function () {
         ordenar(6);
     };
     titulo.onclick = funcion;
@@ -111,7 +114,7 @@ function construirCabecera() {
 
     var titulo = document.createElement('th');
     var texto = document.createTextNode("Departamento");
-    var funcion= function () {
+    var funcion = function () {
         ordenar(7);
     };
     titulo.onclick = funcion;
@@ -129,7 +132,7 @@ function construirFila(datos, n) {
     campo.className = "emp_no";
     campo.type = "number";
     campo.value = datos.emp_no;
-    campo.setAttribute("readonly",true);
+    campo.setAttribute("readonly", true);
     titulo.appendChild(campo);
     linea.appendChild(titulo);
 
@@ -138,7 +141,7 @@ function construirFila(datos, n) {
     campo.className = "apellido";
     campo.type = "text";
     campo.value = datos.apellido;
-    campo.onblur = (evento)=>{ actualizarFila(evento,n) };
+    campo.onblur = (evento) => { actualizarFila(evento, n) };
     titulo.appendChild(campo);
     linea.appendChild(titulo);
 
@@ -147,7 +150,7 @@ function construirFila(datos, n) {
     campo.className = "oficio";
     campo.type = "text";
     campo.value = datos.oficio;
-    campo.onblur = (evento)=>{ actualizarFila(evento,n) };
+    campo.onblur = (evento) => { actualizarFila(evento, n) };
     titulo.appendChild(campo);
     linea.appendChild(titulo);
 
@@ -156,7 +159,7 @@ function construirFila(datos, n) {
     campo.className = "dir";
     campo.type = "number";
     campo.value = datos.dir;
-    campo.onblur = (evento)=>{ actualizarFila(evento,n) };
+    campo.onblur = (evento) => { actualizarFila(evento, n) };
     titulo.appendChild(campo);
     linea.appendChild(titulo);
 
@@ -165,7 +168,7 @@ function construirFila(datos, n) {
     campo.className = "fecha_alt";
     campo.type = "text";
     campo.value = datos.fecha_alt;
-    campo.onblur = (evento)=>{ actualizarFila(evento,n) };
+    campo.onblur = (evento) => { actualizarFila(evento, n) };
     titulo.appendChild(campo);
     linea.appendChild(titulo);
 
@@ -174,7 +177,7 @@ function construirFila(datos, n) {
     campo.className = "salario";
     campo.type = "number";
     campo.value = datos.salario;
-    campo.onblur = (evento)=>{ actualizarFila(evento,n) };
+    campo.onblur = (evento) => { actualizarFila(evento, n) };
     titulo.appendChild(campo);
     linea.appendChild(titulo);
 
@@ -183,195 +186,174 @@ function construirFila(datos, n) {
     campo.className = "comision";
     campo.type = "number";
     campo.value = datos.comision;
-    campo.onblur = (evento)=>{ actualizarFila(evento,n) };
+    campo.onblur = (evento) => { actualizarFila(evento, n) };
     titulo.appendChild(campo);
     linea.appendChild(titulo);
 
     var titulo = document.createElement('td');
     var selector = document.createElement('select');
     selector.className = "dept_no";
-    selector.id= "selectDep"+n;
-    selector.name = "dep"+n;
-    anadirDepartamento(selector,datos.dept_no);
-    selector.onblur = (evento)=>{ actualizarFila(evento,n) };
+    selector.id = "selectDep" + n;
+    selector.name = "dep" + n;
+    anadirDepartamento(selector, datos.dept_no);
+    selector.onblur = (evento) => { actualizarFila(evento, n) };
     titulo.appendChild(selector);
     linea.appendChild(titulo);
 
     return linea;
 }
 
-function anterior(){
-    if(indice>0 && indice>=numFilas){
-        indice = indice-numFilas;
-    }else{
-        indice=0;
+function anterior() {
+    if (indice > 0 && indice >= numFilas) {
+        indice = indice - numFilas;
+    } else {
+        indice = 0;
     }
-    if(campoActual===null){
+    if (campoActual === null) {
         mostrarDatos();
-    }else{
-        mostrarOrdenar(campoActual,ordenActual);
+    } else {
+        mostrarOrdenar(campoActual, ordenActual);
     }
 }
-function siguiente(){
-    indice=parseInt(indice)+parseInt(numFilas);
-    if(campoActual===null){
+function siguiente() {
+    indice = parseInt(indice) + parseInt(numFilas);
+    if (campoActual === null) {
         mostrarDatos();
-    }else{
-        mostrarOrdenar(campoActual,ordenActual);
+    } else {
+        mostrarOrdenar(campoActual, ordenActual);
     }
 }
 
-function ordenar(columna){
-    indice=0;
+function ordenar(columna) {
+    indice = 0;
     switch (columna) {
         case 0:
-            campoActual="emp_no";
-            if(ordenActual!=="ASC"){
-                ordenActual=0;
-                ordenActual="ASC";
-            }else{
-                ordenActual="DESC"
+            campoActual = "emp_no";
+            if (ordenActual !== "ASC") {
+                ordenActual = 0;
+                ordenActual = "ASC";
+            } else {
+                ordenActual = "DESC"
             }
             break;
         case 1:
-            campoActual="apellido";
-            if(ordenActual!=="ASC"){
-                ordenActual=1;
-                ordenActual="ASC";
-            }else{
-                ordenActual="DESC"
+            campoActual = "apellido";
+            if (ordenActual !== "ASC") {
+                ordenActual = 1;
+                ordenActual = "ASC";
+            } else {
+                ordenActual = "DESC"
             }
             break;
         case 2:
-            campoActual="oficio";
-            if(ordenActual!=="ASC"){
-                ordenActual=2;
-                ordenActual="ASC";
-            }else{
-                ordenActual="DESC"
+            campoActual = "oficio";
+            if (ordenActual !== "ASC") {
+                ordenActual = 2;
+                ordenActual = "ASC";
+            } else {
+                ordenActual = "DESC"
             }
             break;
         case 3:
-            campoActual="dir";
-            if(ordenActual!=="ASC"){
-                ordenActual=3;
-                ordenActual="ASC";
-            }else{
-                ordenActual="DESC"
+            campoActual = "dir";
+            if (ordenActual !== "ASC") {
+                ordenActual = 3;
+                ordenActual = "ASC";
+            } else {
+                ordenActual = "DESC"
             }
             break;
         case 4:
-            campoActual="fecha_alt";
-            if(ordenActual!=="ASC"){
-                ordenActual=4;
-                ordenActual="ASC";
-            }else{
-                ordenActual="DESC"
+            campoActual = "fecha_alt";
+            if (ordenActual !== "ASC") {
+                ordenActual = 4;
+                ordenActual = "ASC";
+            } else {
+                ordenActual = "DESC"
             }
             break;
         case 5:
-            campoActual="salario";
-            if(ordenActual!=="ASC"){
-                ordenActual=5;
-                ordenActual="ASC";
-            }else{
-                ordenActual="DESC"
+            campoActual = "salario";
+            if (ordenActual !== "ASC") {
+                ordenActual = 5;
+                ordenActual = "ASC";
+            } else {
+                ordenActual = "DESC"
             }
             break;
         case 6:
-            campoActual="comision";
-            if(ordenActual!=="ASC"){
-                ordenActual=6;
-                ordenActual="ASC";
-            }else{
-                ordenActual="DESC"
+            campoActual = "comision";
+            if (ordenActual !== "ASC") {
+                ordenActual = 6;
+                ordenActual = "ASC";
+            } else {
+                ordenActual = "DESC"
             }
             break;
         case 7:
-            campoActual="dept_no";
-            if(ordenActual!=="ASC"){
-                ordenActual=7;
-                ordenActual="ASC";
-            }else{
-                ordenActual="DESC"
+            campoActual = "dept_no";
+            if (ordenActual !== "ASC") {
+                ordenActual = 7;
+                ordenActual = "ASC";
+            } else {
+                ordenActual = "DESC"
             }
             break;
         default:
             break;
     }
-    mostrarOrdenar(campoActual,ordenActual);
+    mostrarOrdenar(campoActual, ordenActual);
 }
 
-function mostrarOrdenar(campo,tipo){
+function mostrarOrdenar(campo, tipo) {
     numFilas = document.getElementById("selectFilas").value;
-    if (numFilas == "") {
+    fetch("getEmpleados.php?q=" + numFilas + "&oculto=" + indice + "&campo=" + campo + "&ordenar=" + tipo,{method: "GET"})
+    .then(response =>{
+        if(!response.ok){
+            throw new Error(`Error de red: ${response.status}`);
+        }
+        return response.json();
+    }).then(resultados =>{
+        datosResultados = resultados;
+        var tabla = document.createElement('table');
+        tabla.setAttribute("border", 1);
+        var cabecera = construirCabecera();
+        tabla.id = "tablaEmpleados";
+        tabla.appendChild(cabecera);
+        for (let i = 0; i < resultados.length; i++) {
+            let fila = construirFila(resultados[i], i);
+            tabla.appendChild(fila);
+        }
         document.getElementById("tabla").innerHTML = "";
-        return;
-    } else {
-        if (window.XMLHttpRequest) {
-            // code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp = new XMLHttpRequest();
-        } else {
-            // code for IE6, IE5
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                var json = this.responseText;
-                resultados=eval(json);
-                var tabla = document.createElement('table');
-				tabla.setAttribute("border", 1);
-                var cabecera = construirCabecera();
-                tabla.id="tablaEmpleados";
-                tabla.appendChild(cabecera);
-                for (let i = 0; i < resultados.length; i++) {
-                    let fila = construirFila(resultados[i], i);
-                    tabla.appendChild(fila);
-                }
-                document.getElementById("tabla").innerHTML = "";
-                document.getElementById("tabla").appendChild(tabla);
-            }
-        };
-        xmlhttp.open("GET", "getEmpleados.php?q=" + numFilas + "&oculto=" + indice + "&campo=" +campo + "&ordenar=" +tipo, true);
-        xmlhttp.send();
-    }
+        document.getElementById("tabla").appendChild(tabla);
+    }).catch(error => {
+        console.error('Error de fetch:', error);
+    });
 }
 
-function traerDepart(){
-    let xmlhttpDep = new XMLHttpRequest();
-    xmlhttpDep.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            let jsonDep = this.responseText;
-            resultadosDep=eval(jsonDep);
-        }
-    }
-    xmlhttpDep.open("GET", "getDepartamentos.php", true);
-    xmlhttpDep.send();
-}
-
-function anadirDepartamento(selector,dep_no){
+function anadirDepartamento(selector, dep_no) {
     resultadosDep.forEach(departamento => {
         let opcion = document.createElement("option");
-        opcion.value=departamento.dept_no;
-        opcion.innerText=departamento.dnombre;
+        opcion.value = departamento.dept_no;
+        opcion.innerText = departamento.dnombre;
 
-        if(dep_no == departamento.dept_no){
-            opcion.selected=true;
+        if (dep_no == departamento.dept_no) {
+            opcion.selected = true;
         }
         selector.appendChild(opcion);
     });
 }
 
-function insertarFila(){
+function insertarFila() {
     let tabla = document.getElementById("tablaEmpleados");
     linea = document.createElement('tr');
-    linea.id="nuevoempleado";
+    linea.id = "nuevoempleado";
 
     var titulo = document.createElement('td');
     var campo = document.createElement('input');
     campo.className = "emp_no";
     campo.type = "number";
-    campo.setAttribute("readonly",true);
+    campo.setAttribute("readonly", true);
     titulo.appendChild(campo);
     linea.appendChild(titulo);
 
@@ -429,46 +411,43 @@ function insertarFila(){
     campo.type = "number";
     campo.onblur = annadirFila;
     titulo.appendChild(campo);
-    linea.appendChild(titulo);  
+    linea.appendChild(titulo);
 
     tabla.appendChild(linea);
 }
 
-function annadirFila(evento){
+function annadirFila(evento) {
     let todo = evento.target;
-    let esteCampo= todo.classList[0];
-    let valor=todo.value;
-    
-    try{
-        xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
+    let esteCampo = todo.classList[0];
+    let valor = todo.value;
+
+    try {
+        fetch("annadirEmpleados.php?q=" + numFilas + "&campo=" + esteCampo + "&valor=" + valor,{method: "GET"})
+        .then(response => {
+            if(response.ok){
                 todo.parentElement.parentElement.remove();
+            }else{
+                throw new Error(`Error de red: ${response.status}`);
             }
-        };
-        xmlhttp.open("GET", "annadirEmpleados.php?q=" + numFilas + "&campo=" + esteCampo + "&valor=" +valor, true);
-        xmlhttp.send();
-    }catch(Exception){
-        console.error(Exception);
+        });
+    } catch (error) {
+        console.error(error);
     }
 }
 
-function actualizarFila(evento,n){
+function actualizarFila(evento, n) {
     let todo = evento.target;
-    let esteCampo= todo.classList[0];
-    let valor=todo.value;
-    let id=resultados[n].emp_no;
-    try{
-        xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                
+    let esteCampo = todo.classList[0];
+    let valor = todo.value;
+    let id = datosResultados[n].emp_no;
+    try {
+        fetch("updateEmpleados.php?q=" + numFilas + "&campo=" + esteCampo + "&valor=" + valor + "&id=" + id,{method: "GET"})
+        .then(response => {
+            if(!response.ok){
+                throw new Error(`Error de red: ${response.status}`);
             }
-        };
-        
-        xmlhttp.open("GET", "updateEmpleados.php?q=" + numFilas + "&campo=" + esteCampo + "&valor=" +valor + "&id=" +id, true);
-        xmlhttp.send();
-    }catch(Exception){
-        console.error(Exception);
+        });
+    } catch (error) {
+        console.error(error);
     }
 }
